@@ -6,8 +6,10 @@
 
 #define SCREEN_WIDTH 1366
 #define SCREEN_HEIGH 768
-#define W 500 // 4 * 180
-#define H 200 // 3 * 180
+#define W 900
+#define H 600
+
+#define π 3.141592653589793
 
 void draw()
 {
@@ -18,11 +20,26 @@ void draw()
     glVertex2d(-0.99, 0.99);
     glVertex2d(-0.99, -0.99);
     glEnd();
+
+    double sqrt3 = sqrt(3);
+
+    glBegin(GL_TRIANGLES);
+    glVertex2d(-0.5, -sqrt3 / 6);
+    glVertex2d(0.5, -sqrt3 / 6);
+    glVertex2d(0, sqrt3 / 3);
+    glEnd();
+
+    glColor3d(0,0,0);
+    glBegin(GL_POLYGON);
+    for (double i = 0; i < 2 * π; i += π / 18)
+        glVertex2d((cos(i) + 2) / 25 + 0.5, (sin(i) + 1) / 25 - sqrt3 / 6);
+    glEnd();
 }
 
 void onInitialization()
 {
     glClearColor(1, 1, 1, 0);
+    glPointSize(5);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -35,11 +52,12 @@ void onDisplay()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glViewport(10, 10, 288, 288);
+    glViewport(10, 10, 400, 400);
     glColor3d(1, 0, 0);
     draw();
 
-    glViewport(370, 10, 144, 144);
+    glRotated(90, 0, 0, 1);
+    glViewport(510, 10, 200, 200);
     glColor3d(0, 1, 0);
     draw();
 
